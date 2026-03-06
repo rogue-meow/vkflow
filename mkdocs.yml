@@ -1,0 +1,164 @@
+site_name: VKFlow
+site_description: Modern async VK bot framework
+site_url: https://rogue-meow.github.io/vkflow
+
+repo_name: rogue-meow/vkflow
+repo_url: https://github.com/rogue-meow/vkflow
+
+theme:
+  name: material
+
+  language: ru
+  custom_dir: docs/overrides
+
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
+
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - navigation.tabs
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - search.highlight
+    - search.suggest
+
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search:
+      separator: '[\s\-\.]+'
+      lang:
+        - ru
+        - en
+
+  - blog:
+      blog_dir: blog
+
+      post_date_format: long
+      post_url_format: "{slug}"
+
+      archive_name: "Архив"
+      categories: false
+
+  - mkdocstrings:
+      default_handler: python
+
+      handlers:
+        python:
+          paths: [.]
+
+          options:
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            members_order: source
+            docstring_style: google
+            merge_init_into_class: true
+            show_if_no_docstring: false
+            signature_crossrefs: true
+            separate_signature: true
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+  generator: false
+
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/rogue-meow/vkflow
+      name: GitHub
+
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/vkflow
+      name: PyPI
+
+extra_css:
+  - stylesheets/custom.css
+  - stylesheets/home.css
+
+extra_javascript:
+  - javascripts/extra.js
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+  - pymdownx.highlight:
+      anchor_linenums: true
+
+  - pymdownx.inlinehilite
+
+  - pymdownx.tabbed:
+      alternate_style: true
+
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+  - toc:
+      permalink: true
+
+  - attr_list
+  - md_in_html
+
+nav:
+  - Главная: index.md
+  - Быстрый старт: getting-started.md
+  - Руководства:
+    - guides/index.md
+    - Команды: guides/commands.md
+    - Аргументы: guides/arguments.md
+    - Cog-модули: guides/cogs.md
+    - Клавиатуры и View: guides/keyboards.md
+    - FSM (диалоги): guides/fsm.md
+    - Проверки и cooldown: guides/checks.md
+    - Префиксы: guides/prefixes.md
+    - Аддоны: guides/addons.md
+  - Примеры: examples.md
+  - Журнал изменений: changelog.md
+  - Блог: blog/index.md
+  - Справочник:
+    - reference/index.md
+    - App и Bot: reference/app.md
+    - API: reference/api.md
+    - Команды: reference/commands.md
+    - Контекст: reference/context.md
+    - Модели: reference/models.md
+    - UI: reference/ui.md
+    - FSM: reference/fsm.md
+    - События: reference/events.md
+    - Утилиты: reference/utils.md

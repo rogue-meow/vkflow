@@ -1,0 +1,93 @@
+name: "Баг"
+description: "Сообщить об ошибке в vkflow"
+labels: ["bug"]
+
+body:
+  - type: input
+    id: title
+    attributes:
+      label: "Заголовок"
+      description: "Краткое описание бага"
+      placeholder: "bot.run() падает при отсутствии токена"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Описание"
+      description: "Подробное описание проблемы"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Шаги для воспроизведения"
+      description: "Перечислите шаги для воспроизведения бага"
+      placeholder: |
+        1. Создать бота с ...
+        2. Добавить команду ...
+        3. Запустить бота
+        4. Отправить сообщение ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: minimal_code
+    attributes:
+      label: "Минимальный код для воспроизведения"
+      description: "Минимальный пример кода, воспроизводящий проблему"
+      render: python
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Ожидаемый результат"
+      description: "Что должно было произойти?"
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: "Полученный результат"
+      description: "Что произошло на самом деле?"
+
+  - type: textarea
+    id: system_info
+    attributes:
+      label: "Системная информация"
+      description: |
+        Выполните `python -m vkflow -v` и вставьте вывод ниже.
+        Если нет возможности выполнить команду - предоставьте базовую информацию о системе и версии Python.
+      render: text
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Логи"
+      description: "Вставьте логи, если они есть"
+      render: text
+
+  - type: dropdown
+    id: install_source
+    attributes:
+      label: "Библиотека установлена из"
+      options:
+        - PyPI
+        - GitHub
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Чек-лист"
+      options:
+        - label: "Мною проверено, что похожей проблемы еще не было описано"
+          required: true
+        - label: "Мною удалены токены из примеров кода"
+          required: true
+        - label: "Мною предоставлены логи, если возможно"
+          required: true
+        - label: "Я уверен(-а), что это баг фреймворка"
+          required: true

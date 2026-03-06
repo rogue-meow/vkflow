@@ -1,0 +1,128 @@
+{%- for section in organized_data -%}
+    <details class="section-group {% if section.type == 'cog' %}cog-section{% else %}package-section{% endif %}" data-section-name="{{ section.name }}" {% if section.type != 'cog' %}open{% endif %}>
+        <summary class="section-header">
+            <h3 class="section-group-title">
+                {%- if section.type == 'cog' -%}
+                    <span class="section-badge cog-badge">Cog</span>
+                {%- else -%}
+                    <span class="section-badge package-badge">Package</span>
+                {%- endif -%}
+                {{ section.name }}
+            </h3>
+            {%- if section.description -%}
+                <p class="section-group-description">{{ section.description }}</p>
+            {%- endif -%}
+        </summary>
+
+        <div class="section-content">
+        {%- for command in section.commands -%}
+            <div class="command-container" data-command-name="{{ command.names[0] }}" data-command-aliases="{{ command.names|join(' ') }}">
+                <div class="command-header" id="{{ command.names[0] }}">
+                    <code>
+                        {#- Logic for Prefix + Name -#}
+                        {%- if command.prefixes and command.prefixes is sequence and command.prefixes is not string -%}
+                            <span class="prefix-part">{{ command.prefixes[0] }}</span><span class="name-part">{{- command.names[0] }}</span>
+                        {%- elif command.prefixes and command.prefixes is string -%}
+                            <span class="prefix-part">{{ command.prefixes }}</span><span class="name-part">{{- command.names[0] }}</span>
+                        {%- elif command.prefixes -%}
+                            {#- Dynamic prefix - try to get first prefix from app -#}
+                            {%- if app.prefixes and app.prefixes is sequence and app.prefixes is not string -%}
+                                <span class="prefix-part dynamic">{{ app.prefixes[0] }}</span><span class="name-part">{{- command.names[0] }}</span>
+                            {%- elif app.prefixes and app.prefixes is string -%}
+                                <span class="prefix-part dynamic">{{ app.prefixes }}</span><span class="name-part">{{- command.names[0] }}</span>
+                            {%- else -%}
+                                <span class="prefix-part dynamic">!</span><span class="name-part">{{- command.names[0] }}</span>
+                            {%- endif -%}
+                        {%- else -%}
+                            <span class="name-part">{{- command.names[0] }}</span>
+                        {%- endif -%}
+
+                        {%- for text_argument in command.text_arguments -%}
+                            {%- if text_argument.argument_settings.default is not none or text_argument.argument_settings.default_factory is not none -%}
+                                <span class="argument-placeholder"> [{{ text_argument.argument_name }}]</span>
+                            {%- else -%}
+                                <span class="argument-placeholder"> &lt;{{ text_argument.argument_name }}&gt;</span>
+                            {%- endif -%}
+                        {%- endfor -%}
+                    </code>
+                    <a class="command-headerlink" href="#{{ command.names[0] }}" title="Ссылка на команду">#</a>
+                </div>
+
+                {%- if command._autodoc_brief is defined and command._autodoc_brief -%}
+                    <div class="command-description">
+                        {{ command._autodoc_brief }}
+                    </div>
+                {%- endif -%}
+
+                {%- if command._autodoc_description is defined and command._autodoc_description -%}
+                    <details>
+                        <summary>Описание</summary>
+                        <div class="details-content">
+                            {{ command._autodoc_description }}
+                        </div>
+                    </details>
+                {%- endif -%}
+
+                {%- if command._autodoc_full_description is defined and command._autodoc_full_description -%}
+                    <details>
+                        <summary>Полное описание</summary>
+                        <div class="details-content">
+                            {{ command._autodoc_full_description }}
+                        </div>
+                    </details>
+                {%- endif -%}
+
+                {%- if command.text_arguments -%}
+                    <details>
+                        <summary>Параметры</summary>
+                        <div class="details-content">
+                            {%- for text_argument in command.text_arguments -%}
+                                <div class="parameter-item">
+                                    <code class="parameter-name">
+                                        {%- if text_argument.argument_settings.default is not none or text_argument.argument_settings.default_factory is not none -%}
+                                            [{{ text_argument.argument_name }}]
+                                        {%- else -%}
+                                            &lt;{{ text_argument.argument_name }}&gt;
+                                        {%- endif -%}
+                                    </code>
+                                    <p>
+                                        {{ text_argument.argument_settings.description or text_argument.cutter.gen_doc().capitalize() }}
+                                    </p>
+                                </div>
+                            {%- endfor -%}
+                        </div>
+                    </details>
+                {%- endif -%}
+
+                {%- if command.names|length >= 2 or (command.prefixes is sequence and command.prefixes is not string and command.prefixes|length >= 2) -%}
+                    <details>
+                        <summary>Альтернативные вызовы</summary>
+                        <div class="details-content">
+                            {%- if command.prefixes is sequence and command.prefixes is not string and command.prefixes|length >= 2 -%}
+                                <h3>Альтернативные префиксы</h3>
+                                <ul class="alternative-list">
+                                    {%- for alt_prefix in command.prefixes[1:] -%}
+                                        <li><code>{{ alt_prefix }}</code></li>
+                                    {%- endfor -%}
+                                </ul>
+                            {%- elif command.prefixes and command.prefixes is not sequence -%}
+                                <h3>Префикс</h3>
+                                <p><i>Динамический префикс (определяется функцией)</i></p>
+                            {%- endif -%}
+
+                            {%- if command.names|length >= 2 -%}
+                                <h3>Альтернативные имена</h3>
+                                <ul class="alternative-list">
+                                    {%- for alt_name in command.names[1:] -%}
+                                    <li><code>{{ alt_name }}</code></li>
+                                    {%- endfor -%}
+                                </ul>
+                            {%- endif -%}
+                        </div>
+                    </details>
+                {%- endif -%}
+            </div>
+        {%- endfor -%}
+        </div>
+    </details>
+{%- endfor -%}

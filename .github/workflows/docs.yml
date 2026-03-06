@@ -1,0 +1,40 @@
+name: Docs
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.12"
+          extras: "docs"
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          TAG="${GITHUB_REF#refs/tags/v}"
+          MAJOR_MINOR="${TAG%.*}"
+          echo "full=$TAG" >> "$GITHUB_OUTPUT"
+          echo "short=$MAJOR_MINOR" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy with mike
+        run: |
+          mike deploy --push --update-aliases "${{ steps.version.outputs.short }}" latest
+          mike set-default --push latest

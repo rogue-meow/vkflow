@@ -1,0 +1,42 @@
+<main class="container">
+    <div class="color-picker-wrapper">
+        <button class="color-picker-toggle" id="colorPickerToggle" aria-label="Выбрать цвет">
+            🎨
+        </button>
+        <div class="color-picker-dropdown" id="colorPickerDropdown">
+            <div class="color-picker-title">Выберите цвет</div>
+            <div class="color-picker-grid">
+                <button class="color-option" style="background-color: #36a993;" onclick="setAccent('#36a993')" data-color-name="Изумрудный"></button>
+                <button class="color-option" style="background-color: #7289da;" onclick="setAccent('#7289da')" data-color-name="Discord"></button>
+                <button class="color-option" style="background-color: #ff5252;" onclick="setAccent('#ff5252')" data-color-name="Красный"></button>
+                <button class="color-option" style="background-color: #f0932b;" onclick="setAccent('#f0932b')" data-color-name="Оранжевый"></button>
+                <button class="color-option" style="background-color: #9b59b6;" onclick="setAccent('#9b59b6')" data-color-name="Фиолетовый"></button>
+                <button class="color-option" style="background-color: #3498db;" onclick="setAccent('#3498db')" data-color-name="Синий"></button>
+                <button class="color-option" style="background-color: #2ecc71;" onclick="setAccent('#2ecc71')" data-color-name="Зеленый"></button>
+                <button class="color-option" style="background-color: #e91e63;" onclick="setAccent('#e91e63')" data-color-name="Розовый"></button>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <h1 id="bot_name">{{ app.name }}</h1>
+        <p class="bot-description">{{ app.description}}</p>
+    </header>
+
+    <div class="divider"></div>
+
+    <div class="search-container">
+        <input type="text" id="command-search" class="search-input" placeholder="🔍 Поиск команды..." autocomplete="off">
+        <div id="search-stats" class="search-stats"></div>
+    </div>
+
+    <h2 class="section-title">Команды</h2>
+
+    <div class="commands-section">
+        {% include "commands-section.html" %}
+    </div>
+
+    <div id="no-results" class="no-results" style="display: none;">
+        <p>Команды не найдены</p>
+    </div>
+</main>

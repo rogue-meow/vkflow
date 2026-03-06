@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: "Документация"
+    url: "https://rogue-meow.github.io/vkflow"
+    about: "Ознакомьтесь с документацией, возможно, ответ уже есть"
+
+  - name: "Паблик ВК"
+    url: "https://vk.com/club236460230"
+    about: "Вступайте в наше сообщество ВКонтакте"

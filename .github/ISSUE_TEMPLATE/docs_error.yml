@@ -1,0 +1,46 @@
+name: "Ошибка документации"
+description: "Сообщить об ошибке или неточности в документации"
+labels: ["documentation"]
+
+body:
+  - type: input
+    id: page_url
+    attributes:
+      label: "Ссылка на страницу"
+      description: "URL страницы документации, на которой обнаружена ошибка"
+      placeholder: "https://rogue-meow.github.io/vkflow/..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Описание ошибки"
+      description: "Что именно неверно или неточно?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: "Предлагаемое исправление"
+      description: "Как, по вашему мнению, должно быть написано?"
+
+  - type: checkboxes
+    id: error_type
+    attributes:
+      label: "Тип ошибки"
+      options:
+        - label: "Опечатка или грамматическая ошибка"
+        - label: "Неактуальная информация (устаревший API, удаленный метод и т.д.)"
+        - label: "Нерабочий пример кода"
+        - label: "Отсутствует важная информация"
+        - label: "Битая ссылка"
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Чек-лист"
+      options:
+        - label: "Мною проверено, что похожей проблемы еще не было описано"
+          required: true

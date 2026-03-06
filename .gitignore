@@ -1,0 +1,63 @@
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.python-version
+dist/
+build/
+*.egg
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+penv/
+
+# Lock files
+uv.lock
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+cover/
+.benchmarks/
+
+# Linting
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+
+# Docs
+site/
+
+# Secrets
+.env
+.env.*
+.envrc
+.pypirc
+
+# Project
+.drafts/
+todo/
+vk-api-schema/

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <title>{{ app.site_title }}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/css/command.css">
+        <link rel="stylesheet" href="assets/css/divider.css">
+        <link rel="stylesheet" href="assets/css/index.css">
+        <script>
+            (function() {
+                const storedAccent = localStorage.getItem('accent-color') || '#36a993';
+                document.documentElement.style.setProperty('--accent-color', storedAccent);
+            })();
+        </script>
+    </head>
+    <body>
+
+        {% include "body.html" %}
+
+        <script>
+            function setAccent(color) {
+                document.documentElement.style.setProperty('--accent-color', color);
+                localStorage.setItem('accent-color', color);
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const toggle = document.getElementById('colorPickerToggle');
+                const dropdown = document.getElementById('colorPickerDropdown');
+
+                if (toggle && dropdown) {
+                    toggle.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        dropdown.classList.toggle('show');
+                    });
+
+                    document.addEventListener('click', function(e) {
+                        if (!dropdown.contains(e.target) && e.target !== toggle) {
+                            dropdown.classList.remove('show');
+                        }
+                    });
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('command-search');
+                const searchStats = document.getElementById('search-stats');
+                const noResults = document.getElementById('no-results');
+                const commandContainers = document.querySelectorAll('.command-container');
+                const sectionGroups = document.querySelectorAll('.section-group');
+
+                function performSearch(query) {
+                    query = query.toLowerCase().trim();
+
+                    let visibleCommands = 0;
+                    let totalCommands = commandContainers.length;
+
+                    if (query === '') {
+                        commandContainers.forEach(container => {
+                            container.style.display = '';
+                        });
+
+                        sectionGroups.forEach(section => {
+                            section.style.display = '';
+                        });
+
+                        searchStats.textContent = '';
+                        noResults.style.display = 'none';
+
+                        return;
+                    }
+
+                    sectionGroups.forEach(section => {
+                        section.style.display = 'none';
+                    });
+
+                    commandContainers.forEach(container => {
+                        const commandName = container.dataset.commandName.toLowerCase();
+                        const commandAliases = container.dataset.commandAliases.toLowerCase();
+                        const commandDescription = container.querySelector('.command-description').textContent.toLowerCase();
+
+                        const matches = commandName.includes(query) ||
+                            commandAliases.includes(query) ||
+                            commandDescription.includes(query);
+
+                        if (matches) {
+                            container.style.display = '';
+                            const parentSection = container.closest('.section-group');
+                            if (parentSection) {
+                                parentSection.style.display = '';
+                            }
+                            visibleCommands++;
+                        } else {
+                            container.style.display = 'none';
+                        }
+                    });
+
+                    if (visibleCommands > 0) {
+                        searchStats.textContent = `Найдено: ${visibleCommands} из ${totalCommands}`;
+                        noResults.style.display = 'none';
+                    } else {
+                        searchStats.textContent = '';
+                        noResults.style.display = 'block';
+                    }
+                }
+
+                searchInput.addEventListener('input', function(e) {
+                    performSearch(e.target.value);
+                });
+
+                searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        const firstVisible = document.querySelector('.command-container:not([style*="display: none"])');
+                        if (firstVisible) {
+                            firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            firstVisible.classList.add('highlight');
+                            setTimeout(() => firstVisible.classList.remove('highlight'), 2000);
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

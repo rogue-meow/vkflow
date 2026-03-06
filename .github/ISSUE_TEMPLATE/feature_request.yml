@@ -1,0 +1,54 @@
+name: "Предложение"
+description: "Предложить новую функциональность или улучшение"
+labels: ["enhancement"]
+
+body:
+  - type: input
+    id: title
+    attributes:
+      label: "Заголовок"
+      description: "Краткое название предложения"
+      placeholder: "Добавить поддержку ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Описание"
+      description: "Подробное описание предложения"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: "Для чего предназначено предложение?"
+      options:
+        - "Ядро библиотеки"
+        - "vkflow.commands"
+        - "vkflow.addons"
+        - "Документация"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Описание проблемы"
+      description: "Какую проблему решает ваше предложение?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Предложенное решение"
+      description: "Как вы видите реализацию?"
+
+  - type: textarea
+    id: code_example
+    attributes:
+      label: "Пример кода"
+      description: "Как мог бы выглядеть предложенный API?"
+      render: python
