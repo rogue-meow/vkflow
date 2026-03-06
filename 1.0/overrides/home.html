@@ -1,0 +1,120 @@
+{% extends "main.html" %}
+
+{% block tabs %}
+  {{ super() }}
+
+  <section class="vf-hero">
+    <div class="vf-hero__inner">
+      <div class="vf-hero__logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="120" height="120">
+          <g>
+            <path d="M 40,80 L 110,220 L 180,80 L 260,80"
+                  fill="none" stroke="currentColor" stroke-width="34"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 145,150 L 215,150"
+                  fill="none" stroke="currentColor" stroke-width="34"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+        </svg>
+      </div>
+      <h1 class="vf-hero__title">VKFlow</h1>
+      <p class="vf-hero__tagline">Современный async-фреймворк для ботов ВКонтакте</p>
+      <div class="vf-hero__actions">
+        <a href="{{ page.next_page.url | url }}" class="md-button md-button--primary vf-hero__btn">
+          Быстрый старт
+        </a>
+        <a href="https://github.com/rogue-meow/vkflow" class="md-button vf-hero__btn vf-hero__btn--secondary">
+          GitHub
+        </a>
+      </div>
+      <div class="vf-hero__version" id="vf-pip-copy" data-copy="pip install vkflow" title="Скопировать">
+        <code>pip install vkflow</code>
+        <svg class="vf-hero__copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="vf-features">
+    <div class="vf-features__grid">
+
+      <div class="vf-feature-card">
+        <div class="vf-feature-card__icon">
+          <span class="twemoji">{% include ".icons/material/lightning-bolt.svg" %}</span>
+        </div>
+        <h3>Type-safe команды</h3>
+        <p>Аргументы автоматически парсятся из аннотаций типов. Валидаторы, конвертеры, кастомные каттеры.</p>
+      </div>
+
+      <div class="vf-feature-card">
+        <div class="vf-feature-card__icon">
+          <span class="twemoji">{% include ".icons/material/view-grid.svg" %}</span>
+        </div>
+        <h3>Интерактивный UI</h3>
+        <p>Клавиатуры, карусели, View с callback-кнопками. Полная типизация.</p>
+      </div>
+
+      <div class="vf-feature-card">
+        <div class="vf-feature-card__icon">
+          <span class="twemoji">{% include ".icons/material/state-machine.svg" %}</span>
+        </div>
+        <h3>FSM-диалоги</h3>
+        <p>Многошаговые сценарии с хранилищем состояний. Memory, Redis или свой backend.</p>
+      </div>
+
+      <div class="vf-feature-card">
+        <div class="vf-feature-card__icon">
+          <span class="twemoji">{% include ".icons/material/puzzle.svg" %}</span>
+        </div>
+        <h3>Cog-модули</h3>
+        <p>Группировка команд в классы с lifecycle-хуками, горячая перезагрузка.</p>
+      </div>
+
+      <div class="vf-feature-card">
+        <div class="vf-feature-card__icon">
+          <span class="twemoji">{% include ".icons/material/shield-check.svg" %}</span>
+        </div>
+        <h3>Проверки и cooldown</h3>
+        <p>Декораторы доступа, rate-limiting, max_concurrency из коробки.</p>
+      </div>
+
+      <div class="vf-feature-card">
+        <div class="vf-feature-card__icon">
+          <span class="twemoji">{% include ".icons/material/webhook.svg" %}</span>
+        </div>
+        <h3>Webhook и LongPoll</h3>
+        <p>Оба режима работы, мульти-бот, система аддонов.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="vf-code-preview">
+    <div class="vf-code-preview__inner">
+      <h2>Минимальный бот за 10 строк</h2>
+      <div class="vf-code-preview__block">
+        <div class="highlight">
+          <pre><code class="language-python"><span class="kn">import</span> <span class="nn">vkflow</span> <span class="k">as</span> <span class="nn">vf</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">vf</span><span class="o">.</span><span class="n">App</span><span class="p">()</span>
+
+<span class="nd">@app.command</span><span class="p">(</span><span class="s2">"ping"</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">ping</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">"Pong!"</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">"TOKEN"</span><span class="p">)</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="vf-faq">
+    <h2>FAQ</h2>
+    {% include "partials/faq-items.html" %}
+  </section>
+
+{% endblock %}
+
