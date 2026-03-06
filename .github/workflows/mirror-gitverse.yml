@@ -1,0 +1,28 @@
+name: Mirror to GitVerse
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  mirror:
+    name: Mirror to GitVerse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to GitVerse
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git checkout -b gitverse-mirror
+          git rm -r --cached .github
+          git commit -m "mirror: remove .github"
+
+          git remote add gitverse https://oauth2:${GITVERSE_TOKEN}@gitverse.ru/rogue/vkflow.git
+          git push gitverse gitverse-mirror:main --force
+        env:
+          GITVERSE_TOKEN: ${{ secrets.GITVERSE_TOKEN }}
