@@ -29,3 +29,27 @@ jobs:
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+
+  publish-gitverse:
+    name: Publish to GitVerse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.12"
+          extras: ""
+
+      - name: Patch README for PyPI
+        run: |
+          sed -i '/<picture>/,/<\/picture>/c\    <img alt="VKFlow" src="https://raw.githubusercontent.com/rogue-meow/vkflow/main/docs/assets/logo-dark.svg" width="120">' README.md
+
+      - name: Build package
+        run: uv build
+
+      - name: Publish to GitVerse
+        run: twine upload --repository-url https://gitverse.ru/api/packages/rogue/pypi -u $GITVERSE_USER -p $GITVERSE_TOKEN dist/*
+        env:
+          GITVERSE_USER: ${{ secrets.GITVERSE_USER }}
+          GITVERSE_TOKEN: ${{ secrets.GITVERSE_TOKEN }}
