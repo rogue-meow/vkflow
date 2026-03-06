@@ -28,7 +28,7 @@ runs:
       shell: bash
       run: |
         if [ -n "${{ inputs.extras }}" ]; then
-          uv pip install -e ".[${{ inputs.extras }}]"
+          uv pip install --system -e ".[${{ inputs.extras }}]"
         else
-          uv pip install -e "."
+          uv pip install --system -e "."
         fi
