@@ -20,6 +20,10 @@ jobs:
           python-version: "3.12"
           extras: ""
 
+      - name: Patch README for PyPI
+        run: |
+          sed -i '/<picture>/,/<\/picture>/c\    <img alt="VKFlow" src="https://raw.githubusercontent.com/rogue-meow/vkflow/main/docs/assets/logo-dark.svg" width="120">' README.md
+
       - name: Build package
         run: uv build
 
