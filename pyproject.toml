@@ -138,7 +138,7 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]  # re-exports
 "examples/*" = ["F401", "F841", "B904", "I001", "T201", "SIM115", "ASYNC230", "N818", "RUF012", "RET503"]  # examples: relaxed rules
-"tests/*" = ["PLW0603", "PT011", "PT012", "PT018", "RET504"]  # tests: relaxed rules
+"tests/*" = ["PLW0603", "PT011", "PT012", "PT018", "RET504", "E402"]  # tests: relaxed rules
 "vkflow/__main__.py" = ["T201"]  # CLI entry point uses print
 
 [tool.ruff.format]
