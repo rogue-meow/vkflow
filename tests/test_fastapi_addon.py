@@ -5,6 +5,8 @@ import logging
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+
+fastapi = pytest.importorskip("fastapi", reason="fastapi not installed")
 from fastapi import APIRouter, Depends, FastAPI
 from fastapi.testclient import TestClient
 
