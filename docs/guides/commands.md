@@ -343,59 +343,19 @@ async def after_test(ctx: commands.Context, result, error):
 
 ## Слушатели событий
 
-### Стандартные VK-события
+Слушатели позволяют реагировать на любые события VK API — новые сообщения, действия в чатах, callback-кнопки и другие.
 
 ```python
-from vkflow import commands
-
-# По имени функции (on_ убирается автоматически)
-@commands.listener()
+@app.listener()
 async def on_message_new(payload):
     print(f"Новое сообщение: {payload}")
 
-# По явному имени
-@commands.listener("message_reply")
-async def handle_reply(payload, user_id):
-    print(f"Ответ от {user_id}")
-
-# Встроенные алиасы: callback -> message_event, message -> message_new
-@commands.listener()
-async def on_ready(bot):
-    print(f"Bot is ready: {bot}")
-```
-
-### Chat-action события
-
-VKFlow автоматически оборачивает VK chat-actions в удобные event-классы:
-
-```python
-from vkflow import commands
-
-# Вход пользователя (по приглашению или по ссылке)
-@commands.listener()
+@app.listener()
 async def on_member_join(event: commands.MemberJoinEvent):
     await event.ctx.reply(f"Добро пожаловать, {event.member_id}!")
-
-# Удаление пользователя
-@commands.listener()
-async def on_member_remove(event: commands.MemberRemoveEvent):
-    await event.ctx.reply(f"Пользователь {event.member_id} покинул чат")
-
-# Закрепление/открепление сообщения
-@commands.listener()
-async def on_pin_message(event: commands.PinMessageEvent):
-    print(f"Сообщение закреплено")
-
-# Обновление чата (фото, название)
-@commands.listener()
-async def on_chat_edit(event: commands.ChatEditEvent):
-    print(f"Чат изменён")
-
-# Raw-режим (без обёрток)
-@commands.listener()
-async def on_raw_member_join(payload, member_id):
-    print(f"Raw: user {member_id} joined")
 ```
+
+Подробное руководство: **[События и слушатели](events.md)** — регистрация через `app.listener()` и в Cog, chat-action события, raw-режим, `wait_for`, `dispatch_event`.
 
 ## Фоновые задачи (Loop)
 

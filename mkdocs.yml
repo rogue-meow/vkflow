@@ -141,6 +141,7 @@ nav:
   - Руководства:
     - guides/index.md
     - Команды: guides/commands.md
+    - События: guides/events.md
     - Аргументы: guides/arguments.md
     - Cog-модули: guides/cogs.md
     - Клавиатуры и View: guides/keyboards.md
