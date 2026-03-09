@@ -10,6 +10,32 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.12"
+      - name: Ruff check
+        run: ruff check .
+      - name: Ruff format
+        run: ruff format .
+      - name: Commit formatting changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "style: auto-format with ruff"
+          git push
+
+  lint-check:
+    name: Lint (PR check)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
