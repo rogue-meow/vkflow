@@ -232,9 +232,7 @@ class Package:
 
         return wrapper
 
-    def listener(
-        self, name: str | None = None
-    ) -> typing.Callable:
+    def listener(self, name: str | None = None) -> typing.Callable:
         """
         Декоратор для регистрации слушателя события напрямую в приложении.
 
