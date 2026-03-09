@@ -232,6 +232,49 @@ class Package:
 
         return wrapper
 
+    def listener(
+        self, name: str | None = None
+    ) -> typing.Callable:
+        """
+        Декоратор для регистрации слушателя события напрямую в приложении.
+
+        Создаёт объект Listener и регистрирует его в event_handlers.
+
+        Args:
+            name: Имя события. Если не указано, определяется по имени функции
+                  (префикс ``on_`` убирается автоматически).
+
+        Returns:
+            Декоратор, оборачивающий функцию в Listener
+
+        Example:
+            app = vf.App()
+
+            @app.listener()
+            async def on_message_new(payload):
+                print(f"Новое сообщение: {payload}")
+
+            @app.listener("message_reply")
+            async def handle_reply(user_id, text):
+                print(f"Ответ от {user_id}: {text}")
+        """
+        from vkflow.commands.listener import Listener
+
+        def decorator(func):
+            lst = Listener(func, event_name=name)
+            event_key = lst.event_name
+
+            if lst.is_chat_action:
+                event_key = "message_new"
+
+            if event_key not in self.event_handlers:
+                self.event_handlers[event_key] = []
+            self.event_handlers[event_key].append(lst)
+
+            return lst
+
+        return decorator
+
     def on_message(
         self, filter: BaseFilter | None = None
     ) -> typing.Callable[[MessageHandlerTypevar], MessageHandlerTypevar]:
