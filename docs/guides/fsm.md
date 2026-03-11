@@ -28,7 +28,55 @@ app = vf.App(prefixes=["!"])
 app.set_fsm_storage(MemoryStorage())
 ```
 
-`MemoryStorage` хранит данные в оперативной памяти. При перезапуске бота данные теряются. Для production рекомендуется реализовать свой `BaseStorage` (например, Redis или БД).
+`MemoryStorage` хранит данные в оперативной памяти. При перезапуске бота данные теряются.
+
+### SQLiteStorage
+
+Для сохранения состояний между перезапусками используйте `SQLiteStorage`:
+
+```python
+from vkflow.app.fsm import SQLiteStorage
+
+app = vf.App(prefixes=["!"])
+app.set_fsm_storage(SQLiteStorage("bot_states.db"))
+```
+
+!!! note "Зависимость"
+    Для работы SQLiteStorage необходим пакет `aiosqlite`: `pip install aiosqlite`
+
+#### Параметры
+
+| Параметр | Тип | По умолчанию | Описание |
+|----------|-----|--------------|----------|
+| `path` | `str` | `"fsm.db"` | Путь к файлу БД или `":memory:"` |
+| `ttl` | `float \| None` | `None` | TTL в секундах, `None` — без ограничений |
+
+#### TTL и очистка
+
+```python
+storage = SQLiteStorage("fsm.db", ttl=3600)
+
+# Просроченные записи удаляются автоматически при чтении.
+# Для массовой очистки:
+removed = await storage.cleanup()
+print(f"Удалено {removed} просроченных записей")
+```
+
+#### Отладка
+
+```python
+count = await storage.get_states_count()  # Количество активных состояний
+keys = await storage.get_keys()           # Список ключей с активными состояниями
+```
+
+#### Context manager
+
+```python
+async with SQLiteStorage("fsm.db") as storage:
+    router = FSMRouter(storage)
+    # ...
+# Соединение закрывается автоматически
+```
 
 ## Визуализация переходов
 

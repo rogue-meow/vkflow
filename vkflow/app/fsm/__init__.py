@@ -47,6 +47,7 @@ Key Components:
     - StateGroup: Groups related states together
     - Context: Provides methods to get/set state and data
     - MemoryStorage: In-memory storage (for development)
+    - SQLiteStorage: Persistent SQLite storage (requires aiosqlite)
     - BaseStorage: Abstract base for custom storage backends
     - Router: Standalone FSM router
     - StateFilter: Filter for commands based on state
@@ -57,6 +58,7 @@ from .state import State, StateGroup
 from .context import Context, FSMContext, KeyStrategy
 from .storage import BaseStorage
 from .storage.memory import MemoryStorage
+from .storage.sqlite import SQLiteStorage
 from .filter import StateFilter, NotStateFilter
 from .router import Router, FSMRouter, StateHandler
 from .decorators import state, on_state
@@ -71,6 +73,7 @@ __all__ = [
     "MemoryStorage",
     "NotStateFilter",
     "Router",
+    "SQLiteStorage",
     "State",
     "StateFilter",
     "StateGroup",
