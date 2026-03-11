@@ -45,6 +45,7 @@ dependencies = [
 [project.optional-dependencies]
 autodoc = ["Jinja2>=3.1.0"]
 fastapi = ["fastapi>=0.100.0", "uvicorn[standard]>=0.20.0"]
+redis = ["redis>=5.0.0"]
 
 speed = ["orjson>=3.10.0", "aiodns>=3.2.0", "Brotli>=1.1.0"]
 speedup = ["orjson>=3.10.0", "aiodns>=3.2.0", "Brotli>=1.1.0"]
