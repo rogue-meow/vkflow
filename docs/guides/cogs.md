@@ -165,19 +165,28 @@ class TasksCog(commands.Cog):
 
     async def cog_load(self):
         self.ticker.start()
+        self.report.start()
 
     async def cog_unload(self):
         self.ticker.cancel()
+        self.report.cancel()
 
     @loop(seconds=30)
     async def ticker(self):
         self.counter += 1
         print(f"Tick #{self.counter}")
 
+    @loop(cron="0 9 * * mon-fri")
+    async def report(self):
+        """Отчёт каждый будний день в 9:00."""
+        print("Отправляю утренний отчёт")
+
     @ticker.before_loop
     async def before_ticker(self):
         await self.app.wait_until_ready()
 ```
+
+Подробнее о параметрах `loop`, включая cron-расписание: **[Команды → Фоновые задачи](commands.md#фоновые-задачи-loop)**.
 
 ## FSM в Cog
 

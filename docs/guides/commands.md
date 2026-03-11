@@ -407,15 +407,61 @@ class MyCog(commands.Cog):
 
 # Ограниченное число итераций
 @loop(seconds=10, count=5)
+```
 
-# Управление
+### Cron-расписание
+
+Параметр `cron` принимает стандартное cron-выражение из 5 полей:
+
+```
+┌───────── минута (0-59)
+│ ┌─────── час (0-23)
+│ │ ┌───── день месяца (1-31)
+│ │ │ ┌─── месяц (1-12 или jan-dec)
+│ │ │ │ ┌─ день недели (0-6, Пн-Вс, или mon-sun)
+* * * * *
+```
+
+```python
+# Каждые 5 минут
+@loop(cron="*/5 * * * *")
+async def check_updates(self):
+    ...
+
+# Каждый день в 9:00 и 18:00
+@loop(cron="0 9,18 * * *")
+async def daily_report(self):
+    ...
+
+# Каждый будний день в 10:30
+@loop(cron="30 10 * * mon-fri")
+async def weekday_task(self):
+    ...
+
+# Первого числа каждого месяца в полночь
+@loop(cron="0 0 1 * *")
+async def monthly_cleanup(self):
+    ...
+```
+
+Поддерживаются: `*` (все значения), диапазоны (`1-5`), шаг (`*/5`, `1-10/2`), списки (`1,3,5`), имена дней недели и месяцев.
+
+!!! note "Взаимоисключающие параметры"
+    Параметр `cron` нельзя сочетать с `seconds`, `minutes`, `hours` или `time`.
+
+### Управление задачей
+
+```python
 task = my_task.start()   # Запустить
 my_task.stop()           # Остановить после текущей итерации
 my_task.cancel()         # Отменить немедленно
 my_task.restart()        # Перезапустить
 my_task.is_running()     # Запущена ли
 my_task.current_loop     # Номер текущей итерации
-my_task.change_interval(seconds=10)  # Изменить интервал на лету
+
+# Изменить расписание на лету
+my_task.change_interval(seconds=10)
+my_task.change_interval(cron="*/15 * * * *")
 ```
 
 ## Middleware
