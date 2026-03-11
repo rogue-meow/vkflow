@@ -23,6 +23,7 @@ from vkflow.ui.view import ViewStore
 from vkflow.event import GroupEvent
 from vkflow.logger import update_logging_level
 from vkflow.longpoll import GroupLongPoll, UserLongPoll
+from vkflow.app.experimental import ExperimentalFeature, validate_experiments
 
 if typing.TYPE_CHECKING:
     from vkflow.base.event_factories import BaseEventFactory
@@ -40,10 +41,13 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
     description: str = "Чат-бот для ВКонтакте, написанный на Python с использованием VK Quick"
     addons: list = dataclasses.field(default_factory=list)
     payload_factory: type[AppPayloadFieldTypevar] = dataclasses.field(default=None)
+    experimental: dict[str, bool] = dataclasses.field(default_factory=dict)
 
     def __post_init__(self):
         if self.debug:
             update_logging_level("DEBUG")
+
+        self._experiments = validate_experiments(self.experimental)
 
         self._extensions: dict[str, typing.Any] = {}
         self._cogs: dict[str, typing.Any] = {}
@@ -86,6 +90,16 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
     @functools.cached_property
     def payload(self) -> AppPayloadFieldTypevar:
         return self.payload_factory()
+
+    def has_experiment(self, feature: str | ExperimentalFeature) -> bool:
+        """Проверяет, включён ли экспериментальный флаг."""
+        feature = ExperimentalFeature(feature)
+        return self._experiments.get(feature, False)
+
+    def _apply_loop_experiments(self, loop: asyncio.AbstractEventLoop) -> None:
+        if self.has_experiment(ExperimentalFeature.EAGER_TASK_FACTORY):
+            loop.set_task_factory(asyncio.eager_task_factory)
+            logger.debug("Experimental: eager_task_factory enabled")
 
     async def get_context(
         self,
@@ -829,6 +843,8 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
 
+        self._apply_loop_experiments(loop)
+
         if self.debug:
             loop.set_debug(True)
 
@@ -862,6 +878,9 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
         *tokens: str | API,
         bot_payload_factory: type[BotPayloadFieldTypevar] | None = None,
     ) -> None:
+        loop = asyncio.get_running_loop()
+        self._apply_loop_experiments(loop)
+
         logger.opt(colors=True).success(
             "Run app (<b>{count}</b> bot{postfix})",
             count=len(tokens),
@@ -886,7 +905,6 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
             asyncio.create_task(bot.run_polling(), name=f"bot_polling_{i}") for i, bot in enumerate(bots)
         ]
 
-        loop = asyncio.get_running_loop()
         shutdown_event = asyncio.Event()
 
         def signal_handler(sig):

@@ -11,3 +11,4 @@
 | [Проверки и cooldown](checks.md) | Контроль доступа, cooldown, max_concurrency |
 | [Префиксы](prefixes.md) | Статические, динамические, упоминания |
 | [Аддоны](addons.md) | AutoDoc, FastAPI, создание своих аддонов |
+| [Эксперименты](experimental.md) | Экспериментальные флаги и оптимизации |

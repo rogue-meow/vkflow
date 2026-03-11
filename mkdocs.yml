@@ -149,6 +149,7 @@ nav:
     - Проверки и cooldown: guides/checks.md
     - Префиксы: guides/prefixes.md
     - Аддоны: guides/addons.md
+    - Эксперименты: guides/experimental.md
   - Примеры: examples.md
   - Журнал изменений: changelog.md
   - Блог: blog/index.md
