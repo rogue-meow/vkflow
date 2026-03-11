@@ -7,7 +7,7 @@ import re
 import typing
 
 from vkflow.base.handler_container import HandlerMixin
-from vkflow.commands.core import Command
+from vkflow.commands.core import Command, Group
 from vkflow.commands.parsing.cutters import UserID, PageID
 from vkflow.exceptions import StopCurrentHandlingError
 from vkflow.app.storages import (
@@ -188,6 +188,71 @@ class Package:
             self.commands.append(command)
 
             return command
+
+        return wrapper
+
+    def group(
+        self,
+        *names: str,
+        prefixes: PrefixType | None = None,
+        aliases: list[str] | None = None,
+        routing_re_flags: re.RegexFlag | int = re.IGNORECASE,
+        exclude_from_autodoc: bool = False,
+        filter: BaseFilter | None = None,
+        description: str | None = None,
+        help: str | None = None,
+        brief: str | None = None,
+        usage: str | None = None,
+        enabled: bool = True,
+        hidden: bool = False,
+        invoke_without_command: bool = False,
+        invalid_argument_config: InvalidArgumentConfig | None = unset,
+        **kwargs,
+    ) -> typing.Callable[[DecoratorFunction], Group[DecoratorFunction]]:
+        """Декоратор для регистрации группы команд в пакете."""
+
+        def wrapper(func):
+            grp_name = names[0] if names else func.__name__
+            grp_aliases = list(names[1:]) if len(names) > 1 else []
+            if aliases:
+                grp_aliases.extend(aliases)
+
+            grp_kwargs = {
+                "prefixes": prefixes or self.prefixes,
+                "routing_re_flags": routing_re_flags,
+                "exclude_from_autodoc": exclude_from_autodoc or hidden,
+                "filter": filter,
+                "description": description,
+                "help": help,
+                "brief": brief,
+                "usage": usage,
+                "enabled": enabled,
+                "hidden": hidden,
+                "invoke_without_command": invoke_without_command,
+            }
+
+            if invalid_argument_config != unset:
+                grp_kwargs["invalid_argument_config"] = invalid_argument_config
+
+            grp_kwargs.update(kwargs)
+
+            if hasattr(func, "__vkflow_checks__"):
+                checks = func.__vkflow_checks__
+                if checks:
+                    combined_filter = grp_kwargs["filter"]
+                    for check in checks:
+                        combined_filter = check if combined_filter is None else combined_filter & check
+                    grp_kwargs["filter"] = combined_filter
+
+            grp = Group(
+                func,
+                name=grp_name,
+                aliases=grp_aliases or None,
+                **grp_kwargs,
+            )
+            self.commands.append(grp)
+
+            return grp
 
         return wrapper
 
