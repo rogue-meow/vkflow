@@ -51,7 +51,7 @@ class AddonConflictError(RuntimeError):
 
 
 class BaseAddon(ABC):
-    """Base class for all VKQuick addons."""
+    """Base class for all VKFlow addons."""
 
     meta: AddonMeta
 

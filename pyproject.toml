@@ -16,7 +16,7 @@ authors = [
     { name = "Rogue" }
 ]
 
-keywords = ["vk", "async", "bots", "quick", "api"]
+keywords = ["vk", "async", "bots", "quick", "flow", "api"]
 
 classifiers = [
     "Environment :: Console",

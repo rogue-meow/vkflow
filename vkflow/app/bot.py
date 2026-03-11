@@ -37,8 +37,8 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
     packages: list[Package] = dataclasses.field(default_factory=list)
     debug: bool = False
     strict_mode: bool = False
-    name: str = "VK Quick Бот"
-    description: str = "Чат-бот для ВКонтакте, написанный на Python с использованием VK Quick"
+    name: str = "VK Flow App"
+    description: str = "Чат-бот для ВКонтакте, написанный на Python с использованием VK Flow"
     addons: list = dataclasses.field(default_factory=list)
     payload_factory: type[AppPayloadFieldTypevar] = dataclasses.field(default=None)
     experimental: dict[str, bool] = dataclasses.field(default_factory=dict)

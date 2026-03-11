@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 def get_vk_app(request: Request) -> App:
-    """Get the VKQuick App instance."""
+    """Get the VKFlow App instance."""
     return request.app.state.vk_app
 
 
