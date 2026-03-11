@@ -42,7 +42,8 @@ app.set_fsm_storage(SQLiteStorage("bot_states.db"))
 ```
 
 !!! note "Зависимость"
-    Для работы SQLiteStorage необходим пакет `aiosqlite`: `pip install aiosqlite`
+    Для асинхронной работы рекомендуется пакет `aiosqlite`: `pip install aiosqlite`.
+    Без него SQLiteStorage будет использовать стандартный `sqlite3` через `asyncio.to_thread`.
 
 #### Параметры
 
@@ -77,6 +78,83 @@ async with SQLiteStorage("fsm.db") as storage:
     # ...
 # Соединение закрывается автоматически
 ```
+
+### RedisStorage
+
+Для продакшн-окружений с высокой нагрузкой используйте `RedisStorage`:
+
+```python
+from vkflow.app.fsm import RedisStorage
+
+app = vf.App(prefixes=["!"])
+app.set_fsm_storage(RedisStorage("redis://localhost:6379/0"))
+```
+
+!!! note "Зависимость"
+    Требуется пакет `redis`: `pip install redis` или `pip install vkflow[redis]`
+
+#### Параметры
+
+| Параметр | Тип | По умолчанию | Описание |
+|----------|-----|--------------|----------|
+| `url` | `str` | `"redis://localhost:6379/0"` | URL подключения к Redis |
+| `ttl` | `int \| None` | `None` | TTL в секундах (нативный Redis EXPIRE) |
+| `prefix` | `str` | `"vkflow:fsm:"` | Префикс ключей для изоляции данных |
+| `client` | `Redis \| None` | `None` | Существующий клиент `redis.asyncio.Redis` |
+
+#### TTL
+
+В отличие от SQLiteStorage, RedisStorage использует нативный механизм TTL через `EXPIRE`. Просроченные ключи удаляются самим Redis — без дополнительных проверок и фоновых задач:
+
+```python
+storage = RedisStorage("redis://localhost:6379/0", ttl=3600)
+```
+
+#### Префикс ключей
+
+Префикс позволяет запускать несколько ботов на одном Redis без конфликтов:
+
+```python
+storage_bot1 = RedisStorage(prefix="bot1:fsm:")
+storage_bot2 = RedisStorage(prefix="bot2:fsm:")
+```
+
+#### Свой клиент Redis
+
+Если у вас уже есть подключение к Redis, передайте его через `client`. В этом случае `url` игнорируется, а при `close()` соединение **не закрывается** — управление остаётся за вами:
+
+```python
+import redis.asyncio as aioredis
+
+client = aioredis.Redis(host="redis.example.com", port=6379, db=2)
+storage = RedisStorage(client=client)
+```
+
+#### Отладка
+
+```python
+count = await storage.get_states_count()  # Количество активных состояний
+keys = await storage.get_keys()           # Список ключей (без префикса)
+```
+
+#### Context manager
+
+```python
+async with RedisStorage("redis://localhost:6379/0", ttl=3600) as storage:
+    router = FSMRouter(storage)
+    # ...
+# Соединение закрывается автоматически
+```
+
+### Сравнение хранилищ
+
+| | MemoryStorage | SQLiteStorage | RedisStorage |
+|---|---|---|---|
+| Персистентность | Нет | Да | Да |
+| TTL | Встроенный | Встроенный | Нативный (Redis EXPIRE) |
+| Зависимости | Нет | `aiosqlite` (опционально) | `redis` |
+| Мульти-процесс | Нет | Нет | Да |
+| Лучше всего для | Разработка, тесты | Небольшие боты | Продакшн, высокая нагрузка |
 
 ## Визуализация переходов
 
@@ -336,37 +414,21 @@ async def other(ctx):
 
 ## Кастомное хранилище
 
+Для создания своего хранилища наследуйтесь от `BaseStorage` и реализуйте обязательные методы:
+
 ```python
 from vkflow.app.fsm.storage import BaseStorage
 
-class RedisStorage(BaseStorage):
-    def __init__(self, redis):
-        self.redis = redis
-
-    async def get_state(self, key: str) -> str | None:
-        return await self.redis.get(f"{key}:state")
-
-    async def set_state(self, key: str, state: str) -> None:
-        await self.redis.set(f"{key}:state", state)
-
-    async def delete_state(self, key: str) -> None:
-        await self.redis.delete(f"{key}:state")
-
-    async def get_data(self, key: str) -> dict:
-        data = await self.redis.get(f"{key}:data")
-        return json.loads(data) if data else {}
-
-    async def set_data(self, key: str, data: dict) -> None:
-        await self.redis.set(f"{key}:data", json.dumps(data))
-
-    async def update_data(self, key: str, **kwargs) -> dict:
-        data = await self.get_data(key)
-        data.update(kwargs)
-        await self.set_data(key, data)
-        return data
-
-    async def clear(self, key: str) -> None:
-        await self.redis.delete(f"{key}:state", f"{key}:data")
+class MyStorage(BaseStorage):
+    async def get_state(self, key: str) -> str | None: ...
+    async def set_state(self, key: str, state: str) -> None: ...
+    async def delete_state(self, key: str) -> None: ...
+    async def get_data(self, key: str) -> dict: ...
+    async def set_data(self, key: str, data: dict) -> None: ...
+    async def update_data(self, key: str, **kwargs) -> dict: ...
+    async def delete_data(self, key: str) -> None: ...
+    async def close(self) -> None: ...        # опционально
+    async def clear(self, key: str) -> None: ... # опционально (по умолчанию вызывает delete_state + delete_data)
 ```
 
 ## Пример: Анкета

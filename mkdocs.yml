@@ -144,6 +144,7 @@ nav:
     - События: guides/events.md
     - Аргументы: guides/arguments.md
     - Cog-модули: guides/cogs.md
+    - Package-модули: guides/packages.md
     - Клавиатуры и View: guides/keyboards.md
     - FSM (диалоги): guides/fsm.md
     - Проверки и cooldown: guides/checks.md

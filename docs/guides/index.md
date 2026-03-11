@@ -6,6 +6,7 @@
 | [События](events.md) | Слушатели, chat-action события, raw-режим, wait_for |
 | [Аргументы](arguments.md) | Type hints, парсинг, валидаторы, конвертеры, флаги |
 | [Cog-модули](cogs.md) | Группировка команд, lifecycle, extensions |
+| [Package-модули](packages.md) | Функциональные модули, декораторы, FSM, хуки |
 | [Клавиатуры и View](keyboards.md) | Кнопки, карусели, интерактивные View |
 | [FSM (диалоги)](fsm.md) | Многошаговые диалоги, состояния, роутеры |
 | [Проверки и cooldown](checks.md) | Контроль доступа, cooldown, max_concurrency |
