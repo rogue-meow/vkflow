@@ -17,6 +17,7 @@ from vkflow.commands.command import Command as BaseCommand
 from vkflow.utils.inject import inject_and_call
 
 from .cooldowns import OnCooldownError
+
 from .context import Context
 
 if typing.TYPE_CHECKING:
@@ -156,6 +157,7 @@ class Command(BaseCommand):
 
         bound_command.parent = self.parent
         bound_command.usage = self.usage
+        bound_command._package = self._package
 
         return bound_command
 
@@ -544,6 +546,18 @@ class Command(BaseCommand):
                 if not should_continue:
                     return False
 
+        if self._package is not None:
+            for hook in getattr(self._package, "_before_command_hooks", []):
+                result = await inject_and_call(hook, {"ctx": check_ctx, **arguments})
+                if result is False:
+                    return False
+
+            pkg_handler = getattr(self._package, "_before_invoke_handler", None)
+            if pkg_handler is not None:
+                result = await self._invoke_hook(pkg_handler, check_ctx, arguments)
+                if result is False:
+                    return False
+
         if self._cog is not None and hasattr(self._cog, "cog_before_invoke"):
             cog_result = await self._invoke_hook(self._cog.cog_before_invoke, check_ctx, arguments)
             if cog_result is False:
@@ -580,6 +594,22 @@ class Command(BaseCommand):
                 )
             except Exception as e:
                 logger.exception(f"Ошибка в after_invoke хуке: {e}")
+
+        if self._package is not None:
+            pkg_handler = getattr(self._package, "_after_invoke_handler", None)
+            if pkg_handler is not None:
+                try:
+                    await self._invoke_hook(pkg_handler, check_ctx, arguments, result=result, error=error)
+                except Exception as e:
+                    logger.exception(f"Ошибка в package after_invoke хуке: {e}")
+
+            for hook in getattr(self._package, "_after_command_hooks", []):
+                try:
+                    await inject_and_call(
+                        hook, {"ctx": check_ctx, "result": result, "error": error, **arguments}
+                    )
+                except Exception as e:
+                    logger.exception(f"Ошибка в package after_command хуке: {e}")
 
         if self._cog is not None and hasattr(self._cog, "cog_after_invoke"):
             try:

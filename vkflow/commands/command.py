@@ -102,6 +102,7 @@ class Command(HandlerMixin[Handler]):
             tuple[typing.Callable[..., typing.Awaitable], tuple[type[Exception], ...] | None]
         ] = []
         self._cog: typing.Any = None
+        self._package: typing.Any = None
 
     async def _create_context(self, ctx: NewMessage, **kwargs) -> typing.Any:
         """
@@ -536,9 +537,10 @@ class Command(HandlerMixin[Handler]):
 
         Возвращает True если ошибка обработана.
         """
-        cog_ctx = error_ctx
-        if cog_ctx is None and self._cog is not None:
-            cog_ctx = await self._create_context(ctx, command=self)
+        owner = self._cog or self._package
+        owner_ctx = error_ctx
+        if owner_ctx is None and owner is not None:
+            owner_ctx = await self._create_context(ctx, command=self)
 
         if (
             self._cog is not None
@@ -546,7 +548,12 @@ class Command(HandlerMixin[Handler]):
             and callable(self._cog.cog_command_error)
         ):
             with contextlib.suppress(Exception):
-                await self._cog.cog_command_error(cog_ctx, error)
+                await self._cog.cog_command_error(owner_ctx, error)
+        elif self._package is not None and getattr(self._package, "_error_handler_func", None) is not None:
+            with contextlib.suppress(Exception):
+                from vkflow.utils.inject import inject_and_call
+
+                await inject_and_call(self._package._error_handler_func, {"ctx": owner_ctx, "error": error})
 
         if await self._try_local_error_handlers(ctx, error, arguments):
             return True
@@ -557,15 +564,25 @@ class Command(HandlerMixin[Handler]):
             and callable(self._cog.cog_command_fallback)
         ):
             try:
-                await self._cog.cog_command_fallback(cog_ctx, error)
+                await self._cog.cog_command_fallback(owner_ctx, error)
                 return True
             except Exception as exc:
                 logger.warning("cog_command_fallback raised an exception: {}", exc)
+        elif self._package is not None and getattr(self._package, "_error_fallback_func", None) is not None:
+            try:
+                from vkflow.utils.inject import inject_and_call
+
+                await inject_and_call(
+                    self._package._error_fallback_func, {"ctx": owner_ctx, "error": error}
+                )
+                return True
+            except Exception as exc:
+                logger.warning("package error_fallback raised an exception: {}", exc)
 
         app = getattr(ctx, "app", None)
         if app is not None and hasattr(app, "on_command_error_fallback"):
             try:
-                app_ctx = cog_ctx if cog_ctx is not None else ctx
+                app_ctx = owner_ctx if owner_ctx is not None else ctx
                 await app.on_command_error_fallback(app_ctx, error)
                 return True
             except Exception as exc:

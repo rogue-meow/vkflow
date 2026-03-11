@@ -44,6 +44,8 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
     experimental: dict[str, bool] = dataclasses.field(default_factory=dict)
 
     def __post_init__(self):
+        super().__post_init__()
+
         if self.debug:
             update_logging_level("DEBUG")
 
@@ -297,6 +299,10 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
                 if hasattr(cog, "process_fsm") and await cog.process_fsm(ctx):
                     return
 
+            for package in self.packages:
+                if package is not self and await package.process_fsm(ctx):
+                    return
+
             async with asyncio.TaskGroup() as tg:
                 for package in self.packages:
                     tg.create_task(package.handle_message(ctx))
@@ -475,13 +481,74 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
             await asyncio.gather(*handler_coroutines, return_exceptions=True)
 
     def add_package(self, package: Package) -> None:
+        package._app = self
         self.packages.append(package)
 
         for command in package.commands:
+            command._package = package
             if isinstance(self.prefixes, list):
                 command.update_prefix(*self.prefixes)
             else:
                 command.update_prefix(self.prefixes)
+
+        logger.opt(colors=True).success(
+            "Loaded package: <c>{name}</c>",
+            name=package.name,
+        )
+
+    def remove_package(self, name: str) -> Package:
+        """Удалить пакет по имени."""
+        for pkg in self.packages:
+            if pkg is self:
+                continue
+            if getattr(pkg, "name", None) == name:
+                self.packages.remove(pkg)
+                for cmd in pkg.commands:
+                    cmd._package = None
+                pkg._app = None
+                logger.opt(colors=True).success(
+                    "Removed package: <c>{name}</c>",
+                    name=name,
+                )
+                return pkg
+        raise ValueError(f"Package '{name}' is not loaded")
+
+    def get_package(self, name: str) -> Package | None:
+        """Получить пакет по имени."""
+        for pkg in self.packages:
+            if getattr(pkg, "name", None) == name:
+                return pkg
+        return None
+
+    async def load_package(self, name: str) -> Package | None:
+        """
+        Загрузить пакет из модуля.
+
+        Модуль должен содержать функцию ``setup(app)`` или атрибут ``package``.
+        """
+        try:
+            module = importlib.import_module(name)
+        except ImportError as e:
+            raise ImportError(f"Failed to import package {name}: {e}") from e
+
+        if hasattr(module, "setup"):
+            result = None
+            if inspect.iscoroutinefunction(module.setup):
+                result = await module.setup(self)
+            else:
+                result = module.setup(self)
+            if isinstance(result, Package):
+                return result
+            return None
+
+        if hasattr(module, "package"):
+            pkg = module.package
+            if not isinstance(pkg, Package):
+                raise TypeError(f"'{name}.package' is not a Package instance")
+            self.add_package(pkg)
+            return pkg
+
+        raise ValueError(f"Module {name} has no 'setup' function or 'package' attribute")
 
     def _register_addon(self, addon: typing.Any) -> None:
         from vkflow.addons.base import BaseAddon, AddonConflictError
@@ -992,15 +1059,25 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
             else:
                 startup_coroutines.append(self.startup())
 
+        from vkflow.utils.inject import inject_and_call
+
         for pkg in self.packages:
             for startup_handler in pkg.startup_handlers:
-                startup_coroutines.extend(startup_handler.handler(bot) for bot in bots)
+                startup_coroutines.extend(
+                    inject_and_call(
+                        startup_handler.handler,
+                        {"bot": bot, "app": self, "api": bot.api},
+                    )
+                    for bot in bots
+                )
 
         async with asyncio.TaskGroup() as tg:
             for coro in startup_coroutines:
                 tg.create_task(coro)
 
     async def _call_shutdown(self, *bots: Bot) -> None:
+        from vkflow.utils.inject import inject_and_call
+
         shutdown_coroutines = []
 
         sig = inspect.signature(self.shutdown)
@@ -1016,7 +1093,13 @@ class App(Package, typing.Generic[AppPayloadFieldTypevar]):
 
         for pkg in self.packages:
             for shutdown_handler in pkg.shutdown_handlers:
-                shutdown_coroutines.extend(shutdown_handler.handler(bot) for bot in bots)
+                shutdown_coroutines.extend(
+                    inject_and_call(
+                        shutdown_handler.handler,
+                        {"bot": bot, "app": self, "api": bot.api},
+                    )
+                    for bot in bots
+                )
 
         async with asyncio.TaskGroup() as tg:
             for coro in shutdown_coroutines:
