@@ -12,7 +12,6 @@ readme = "README.md"
 license = "MIT"
 
 authors = [
-    { name = "Kurbatov Yan", email = "deknowny@gmail.com" },
     { name = "Rogue" }
 ]
 
