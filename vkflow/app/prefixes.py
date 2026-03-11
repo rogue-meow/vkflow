@@ -5,6 +5,7 @@ import typing
 import inspect
 
 from collections.abc import Callable, Awaitable
+from loguru import logger
 
 if typing.TYPE_CHECKING:
     from vkflow.app.storages import NewMessage
@@ -118,8 +119,8 @@ def _get_mention_patterns(ctx: NewMessage) -> list[str]:
                         ]
                     )
 
-    except Exception:
-        pass
+    except Exception as exc:
+        logger.debug("Failed to detect mention patterns: {}", exc)
 
     return patterns
 

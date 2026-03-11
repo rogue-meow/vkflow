@@ -503,16 +503,16 @@ class Command(HandlerMixin[Handler]):
                 try:
                     await self._invoke_error_handler(error_handler, ctx, error, arguments)
                     return True
-                except Exception:
-                    pass
+                except Exception as exc:
+                    logger.warning("Error handler raised an exception: {}", exc)
                 break
 
         if catchall_handler is not None:
             try:
                 await self._invoke_error_handler(catchall_handler, ctx, error, arguments)
                 return True
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.warning("Catch-all error handler raised an exception: {}", exc)
 
         return False
 
@@ -559,8 +559,8 @@ class Command(HandlerMixin[Handler]):
             try:
                 await self._cog.cog_command_fallback(cog_ctx, error)
                 return True
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.warning("cog_command_fallback raised an exception: {}", exc)
 
         app = getattr(ctx, "app", None)
         if app is not None and hasattr(app, "on_command_error_fallback"):
@@ -568,8 +568,8 @@ class Command(HandlerMixin[Handler]):
                 app_ctx = cog_ctx if cog_ctx is not None else ctx
                 await app.on_command_error_fallback(app_ctx, error)
                 return True
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.warning("on_command_error_fallback raised an exception: {}", exc)
 
         return False
 

@@ -10,6 +10,7 @@ import datetime
 import functools
 import dataclasses
 
+from loguru import logger
 from vkflow.base.wrapper import Wrapper
 from vkflow.formatting import format_message
 from vkflow.ui.view import View  # noqa: TC001
@@ -654,8 +655,8 @@ class SentMessage:
                     **routing,
                 )
 
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("Failed to delete message: {}", exc)
 
         if delay is not None:
             task = asyncio.create_task(_delete())

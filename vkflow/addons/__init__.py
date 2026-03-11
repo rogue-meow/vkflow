@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import importlib
 
+from loguru import logger
+
 from .base import AddonMeta, AddonConflictError, AddonDependencyError, BaseAddon
 
 _INTERNAL_ADDONS = {
@@ -61,8 +63,8 @@ def get_available_addons() -> dict[str, type[BaseAddon]]:
             try:
                 cls = ep.load()
                 available[ep.name] = cls
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("Failed to load addon entry point {!r}: {}", ep.name, exc)
 
     return available
 
