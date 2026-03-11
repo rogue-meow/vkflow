@@ -867,3 +867,98 @@ class TestLoopEdgeCases:
         lp = Loop(body, seconds=0, count=1)
         await lp.start()
         assert lp.next_iteration is None
+
+
+# ─── Loop cron support ───
+
+
+class TestLoopCron:
+    def test_create_with_cron(self):
+        """Создание Loop с cron-выражением."""
+        lp = Loop(dummy_coro, cron="*/5 * * * *")
+        assert lp.cron == "*/5 * * * *"
+        assert lp.seconds is None
+        assert lp.minutes is None
+        assert lp.hours is None
+        assert lp.time is None
+
+    def test_reject_cron_with_seconds(self):
+        """Нельзя сочетать cron с интервалами."""
+        with pytest.raises(TypeError, match="Cannot mix cron"):
+            Loop(dummy_coro, cron="* * * * *", seconds=5)
+
+    def test_reject_cron_with_time(self):
+        """Нельзя сочетать cron с time."""
+        t = datetime.time(12, 0, tzinfo=datetime.UTC)
+        with pytest.raises(TypeError, match="Cannot mix cron"):
+            Loop(dummy_coro, cron="* * * * *", time=t)
+
+    def test_reject_invalid_cron(self):
+        """Некорректное cron-выражение отклоняется."""
+        with pytest.raises(ValueError, match="Invalid cron"):
+            Loop(dummy_coro, cron="invalid")
+
+    def test_repr_with_cron(self):
+        """repr отображает cron-выражение."""
+        lp = Loop(dummy_coro, cron="0 9 * * *")
+        r = repr(lp)
+        assert "cron='0 9 * * *'" in r
+        assert "seconds=" not in r
+
+    def test_cron_property_none_when_not_set(self):
+        """Свойство cron возвращает None если не задано."""
+        lp = Loop(dummy_coro, seconds=1)
+        assert lp.cron is None
+
+    def test_clone_preserves_cron(self):
+        """clone() сохраняет cron-выражение."""
+        lp = Loop(dummy_coro, cron="*/10 * * * *")
+        clone = lp.clone()
+        assert clone.cron == "*/10 * * * *"
+        assert clone is not lp
+
+    def test_change_interval_to_cron(self):
+        """Смена интервала на cron."""
+        lp = Loop(dummy_coro, seconds=5)
+        lp.change_interval(cron="0 * * * *")
+        assert lp.cron == "0 * * * *"
+        assert lp.seconds is None
+
+    def test_change_interval_from_cron_to_seconds(self):
+        """Смена cron обратно на интервал."""
+        lp = Loop(dummy_coro, cron="0 * * * *")
+        lp.change_interval(seconds=30)
+        assert lp.cron is None
+        assert lp.seconds == 30.0
+
+    def test_change_interval_cron_rejects_mixed(self):
+        """change_interval не принимает cron вместе с другими параметрами."""
+        lp = Loop(dummy_coro, seconds=1)
+        with pytest.raises(TypeError, match="Cannot mix cron"):
+            lp.change_interval(cron="* * * * *", minutes=5)
+
+    @pytest.mark.asyncio
+    async def test_loop_decorator_with_cron(self):
+        """Декоратор loop() с cron."""
+
+        @loop(cron="*/5 * * * *")
+        async def my_task():
+            pass
+
+        assert isinstance(my_task, Loop)
+        assert my_task.cron == "*/5 * * * *"
+
+    @pytest.mark.asyncio
+    async def test_cron_bound_to_cog(self):
+        """Cron-задача привязывается к экземпляру через дескрипторный протокол."""
+
+        class MyCog:
+            @loop(cron="0 9 * * *")
+            async def daily(self):
+                pass
+
+        cog = MyCog()
+        bound = cog.daily
+        assert isinstance(bound, Loop)
+        assert bound.cron == "0 9 * * *"
+        assert bound._injected is cog

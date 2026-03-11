@@ -18,6 +18,7 @@ from typing import (
 
 import aiohttp
 
+from vkflow.commands.cron import next_cron_time, validate_cron
 from vkflow.logger import logger
 from vkflow.utils.sentinel import MISSING, MissingSentinel
 
@@ -126,6 +127,7 @@ class Loop(Generic[LF]):
         minutes: float = 0,
         hours: float = 0,
         time: datetime.time | Sequence[datetime.time] = MISSING,
+        cron: str | MissingSentinel = MISSING,
         count: int | None = None,
         reconnect: bool = True,
     ) -> None:
@@ -172,15 +174,18 @@ class Loop(Generic[LF]):
         self._hours: float | MissingSentinel = MISSING
         self._time: list[datetime.time] | MissingSentinel = MISSING
         self._interval_seconds: float | MissingSentinel = MISSING
+        self._cron: str | MissingSentinel = MISSING
 
-        self.change_interval(seconds=seconds, minutes=minutes, hours=hours, time=time)
+        self.change_interval(seconds=seconds, minutes=minutes, hours=hours, time=time, cron=cron)
 
     def __repr__(self) -> str:
         attrs = [
             f"coro={self.coro.__qualname__}",
         ]
 
-        if self._time is not MISSING:
+        if self._cron is not MISSING:
+            attrs.append(f"cron={self._cron!r}")
+        elif self._time is not MISSING:
             attrs.append(f"time={self._time!r}")
         else:
             if self._seconds:
@@ -223,7 +228,9 @@ class Loop(Generic[LF]):
             await self._call_loop_function("before_loop")
             self._last_iteration_failed = False
 
-            if self._time is not MISSING:
+            if self._cron is not MISSING:
+                self._next_iteration = next_cron_time(self._cron)
+            elif self._time is not MISSING:
                 self._prepare_time_index()
                 self._next_iteration = self._get_next_sleep_time()
             else:
@@ -234,7 +241,10 @@ class Loop(Generic[LF]):
             while True:
                 if not self._last_iteration_failed:
                     self._last_iteration = self._next_iteration
-                    self._next_iteration = self._get_next_sleep_time()
+                    if self._cron is not MISSING:
+                        self._next_iteration = next_cron_time(self._cron, after=self._last_iteration)
+                    else:
+                        self._next_iteration = self._get_next_sleep_time()
 
                 try:
                     await self.coro(*args, **kwargs)
@@ -256,10 +266,13 @@ class Loop(Generic[LF]):
                     now = utcnow()
 
                     if now > self._next_iteration:
-                        self._next_iteration = now.replace(microsecond=0)
+                        if self._cron is not MISSING:
+                            self._next_iteration = next_cron_time(self._cron, after=now)
+                        else:
+                            self._next_iteration = now.replace(microsecond=0)
 
-                        if self._time is not MISSING:
-                            self._prepare_time_index(now)
+                            if self._time is not MISSING:
+                                self._prepare_time_index(now)
 
                     self._current_loop += 1
 
@@ -303,6 +316,7 @@ class Loop(Generic[LF]):
             hours=self._hours if self._hours is not MISSING else 0,
             minutes=self._minutes if self._minutes is not MISSING else 0,
             time=self._time if self._time is not MISSING else MISSING,
+            cron=self._cron if self._cron is not MISSING else MISSING,
             count=self.count,
             reconnect=self.reconnect,
         )
@@ -337,6 +351,13 @@ class Loop(Generic[LF]):
     def time(self) -> list[datetime.time] | None:
         if self._time is not MISSING:
             return self._time.copy()
+        return None
+
+    @property
+    def cron(self) -> str | None:
+        """Cron-выражение, если задано."""
+        if self._cron is not MISSING:
+            return self._cron
         return None
 
     @property
@@ -530,8 +551,34 @@ class Loop(Generic[LF]):
         minutes: float = 0,
         hours: float = 0,
         time: datetime.time | Sequence[datetime.time] = MISSING,
+        cron: str | MissingSentinel = MISSING,
     ) -> None:
-        if time is MISSING:
+        if cron is not MISSING:
+            if any((seconds, minutes, hours)) or time is not MISSING:
+                raise TypeError("Cannot mix cron with other scheduling parameters.")
+
+            if not validate_cron(cron):
+                raise ValueError(f"Invalid cron expression: {cron!r}")
+
+            self._cron = cron
+            self._interval_seconds = MISSING
+            self._seconds = MISSING
+            self._minutes = MISSING
+            self._hours = MISSING
+            self._time = MISSING
+
+        elif time is not MISSING:
+            if any((seconds, minutes, hours)):
+                raise TypeError("Cannot mix explicit time with relative time.")
+
+            self._time = self._get_time_parameter(time)
+            self._cron = MISSING
+            self._interval_seconds = MISSING
+            self._seconds = MISSING
+            self._minutes = MISSING
+            self._hours = MISSING
+
+        else:
             seconds = seconds or 0
             minutes = minutes or 0
             hours = hours or 0
@@ -545,22 +592,16 @@ class Loop(Generic[LF]):
             self._hours = float(hours)
             self._minutes = float(minutes)
             self._time = MISSING
-
-        else:
-            if any((seconds, minutes, hours)):
-                raise TypeError("Cannot mix explicit time with relative time.")
-
-            self._time = self._get_time_parameter(time)
-            self._interval_seconds = MISSING
-            self._seconds = MISSING
-            self._minutes = MISSING
-            self._hours = MISSING
+            self._cron = MISSING
 
         if self.is_running() and self._last_iteration is not None:
-            if self._time is not MISSING:
+            if self._cron is not MISSING:
+                self._next_iteration = next_cron_time(self._cron, after=self._last_iteration)
+            elif self._time is not MISSING:
                 self._prepare_time_index(now=self._last_iteration)
-
-            self._next_iteration = self._get_next_sleep_time()
+                self._next_iteration = self._get_next_sleep_time()
+            else:
+                self._next_iteration = self._get_next_sleep_time()
 
             if self._handle is not None and not self._handle.done():
                 self._handle.recalculate(self._next_iteration)
@@ -576,6 +617,7 @@ def loop(
     minutes: float = ...,
     hours: float = ...,
     time: datetime.time | Sequence[datetime.time] = ...,
+    cron: str = ...,
     count: int | None = None,
     reconnect: bool = True,
 ) -> Callable[[LF], Loop[LF]]: ...
@@ -589,30 +631,28 @@ def loop(
     cls: Callable[..., L_co] = Loop[Any],
     **kwargs: Any,
 ) -> Callable[[LF], L_co]:
-    """A decorator that schedules a task in the background with
-    optional reconnect logic.
+    """Декоратор для запуска фоновой задачи по расписанию.
+
+    Поддерживает интервалы, точное время и cron-выражения.
 
     Args:
-        seconds: The number of seconds between every iteration.
-        minutes: The number of minutes between every iteration.
-        hours: The number of hours between every iteration.
-        time: The exact times to run this loop at.
-        count: The number of loops to do, None if infinite.
-        reconnect: Whether to handle errors and restart the task.
+        seconds: Количество секунд между итерациями.
+        minutes: Количество минут между итерациями.
+        hours: Количество часов между итерациями.
+        time: Точное время запуска (UTC).
+        cron: Cron-выражение (5 полей: minute hour day month weekday).
+        count: Количество итераций, None — бесконечно.
+        reconnect: Автоматический перезапуск при сетевых ошибках.
 
     Example::
 
-        class MyCog(commands.Cog):
-            def __init__(self):
-                self.my_task.start()
+        @tasks.loop(minutes=5)
+        async def my_task(self):
+            print("Каждые 5 минут")
 
-            @tasks.loop(minutes=5)
-            async def my_task(self):
-                print("Running every 5 minutes")
-
-            @my_task.before_loop
-            async def before_my_task(self):
-                await self.app.wait_until_ready()
+        @tasks.loop(cron="0 9 * * mon-fri")
+        async def weekday_report(self):
+            print("Каждый будний день в 9:00")
     """
     if not callable(cls):
         raise TypeError("cls argument must be callable.")
