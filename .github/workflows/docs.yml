@@ -38,3 +38,15 @@ jobs:
         run: |
           mike deploy --push --update-aliases "${{ steps.version.outputs.short }}" latest
           mike set-default --push latest
+
+      - name: Mirror gh-pages to GitVerse
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages
+          touch .nojekyll
+          git add .nojekyll
+          git diff --cached --quiet || git commit -m "mirror: add .nojekyll"
+          git remote add gitverse https://oauth2:${GITVERSE_TOKEN}@gitverse.ru/rogue/vkflow.git
+          git push gitverse HEAD:gv-pages --force
+        env:
+          GITVERSE_TOKEN: ${{ secrets.GITVERSE_TOKEN }}
