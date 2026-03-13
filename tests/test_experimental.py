@@ -11,6 +11,10 @@ import pytest
 from vkflow.app.experimental import ExperimentalFeature, validate_experiments
 
 
+@pytest.mark.skipif(
+    sys.version_info < (3, 12),
+    reason="eager_task_factory требует Python 3.12+",
+)
 def test_validate_known_feature_enabled():
     """Известный флаг включается корректно"""
     result = validate_experiments({"eager_task_factory": True})
