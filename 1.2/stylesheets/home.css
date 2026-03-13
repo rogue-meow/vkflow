@@ -59,6 +59,7 @@ body:has(.vf-hero) .md-main {
   opacity: 0.9;
   margin: 0 0 2rem;
   font-weight: 400;
+  text-align: center;
 }
 
 .vf-hero__actions {

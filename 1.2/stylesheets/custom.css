@@ -79,6 +79,22 @@ html {
   display: none !important;
 }
 
+.md-header__inner {
+  display: flex;
+  align-items: center;
+}
+
+.md-header__option {
+  display: flex;
+  align-items: center;
+}
+
+.md-header__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .md-typeset h1 {
   font-weight: 800;
   letter-spacing: -0.02em;
