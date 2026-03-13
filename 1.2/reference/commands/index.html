@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/logo.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
     
     
       
@@ -3856,7 +3856,23 @@
 
 
 <a href="#vkflow.commands.core.command" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">brief</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">usage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">routing_re_flags</span><span class="o">=</span><span class="n"><span title="re.IGNORECASE">IGNORECASE</span></span><span class="p">,</span> <span class="n">exclude_from_autodoc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">invalid_argument_config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">command</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="o">*</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">aliases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">prefixes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">help</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">brief</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">usage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">hidden</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">routing_re_flags</span><span class="o">=</span><span class="n"><span title="re.IGNORECASE">IGNORECASE</span></span><span class="p">,</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">exclude_from_autodoc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">invalid_argument_config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="o">**</span><span class="n">kwargs</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
@@ -3900,7 +3916,7 @@ async def greet_command(ctx: Context, name: str):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1077">1077</a></span>
 <span class="normal"><a href="#__codelineno-0-1078">1078</a></span>
 <span class="normal"><a href="#__codelineno-0-1079">1079</a></span>
@@ -4114,7 +4130,7 @@ async def config(ctx: Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1160">1160</a></span>
 <span class="normal"><a href="#__codelineno-0-1161">1161</a></span>
 <span class="normal"><a href="#__codelineno-0-1162">1162</a></span>
@@ -4248,7 +4264,7 @@ parent: Родительская Group, если команда является
 
 
                   <details class="mkdocstrings-source">
-                    <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+                    <summary>Source code in <code>vkflow\commands\core.py</code></summary>
                     <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-67"> 67</a></span>
 <span class="normal"><a href="#__codelineno-0-68"> 68</a></span>
 <span class="normal"><a href="#__codelineno-0-69"> 69</a></span>
@@ -4442,7 +4458,7 @@ parent: Родительская Group, если команда является
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-136">136</a></span>
 <span class="normal"><a href="#__codelineno-0-137">137</a></span>
 <span class="normal"><a href="#__codelineno-0-138">138</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-136" name="__codelineno-0-136"></a><span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -4471,7 +4487,7 @@ parent: Родительская Group, если команда является
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-140">140</a></span>
 <span class="normal"><a href="#__codelineno-0-141">141</a></span>
 <span class="normal"><a href="#__codelineno-0-142">142</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-140" name="__codelineno-0-140"></a><span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -4500,7 +4516,7 @@ parent: Родительская Group, если команда является
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-144">144</a></span>
 <span class="normal"><a href="#__codelineno-0-145">145</a></span>
 <span class="normal"><a href="#__codelineno-0-146">146</a></span>
@@ -4591,7 +4607,7 @@ async def on_test_cooldown(ctx: Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-164">164</a></span>
 <span class="normal"><a href="#__codelineno-0-165">165</a></span>
 <span class="normal"><a href="#__codelineno-0-166">166</a></span>
@@ -4746,7 +4762,7 @@ async def on_heavy_concurrency(ctx: Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-215">215</a></span>
 <span class="normal"><a href="#__codelineno-0-216">216</a></span>
 <span class="normal"><a href="#__codelineno-0-217">217</a></span>
@@ -4903,7 +4919,7 @@ async def check_permissions(ctx: Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-268">268</a></span>
 <span class="normal"><a href="#__codelineno-0-269">269</a></span>
 <span class="normal"><a href="#__codelineno-0-270">270</a></span>
@@ -5053,7 +5069,7 @@ async def after_test(ctx: Context, error):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-319">319</a></span>
 <span class="normal"><a href="#__codelineno-0-320">320</a></span>
 <span class="normal"><a href="#__codelineno-0-321">321</a></span>
@@ -5159,7 +5175,9 @@ async def after_test(ctx: Context, error):
 
 
 <a href="#vkflow.commands.core.Command.reset_cooldown" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">reset_cooldown</span><span class="p">(</span><span class="n">ctx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chat</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">reset_cooldown</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">ctx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chat</span><span class="o">=</span><span class="kc">None</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5206,7 +5224,7 @@ async def reset(self, ctx: commands.Context, cmd_name: str):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-390">390</a></span>
 <span class="normal"><a href="#__codelineno-0-391">391</a></span>
 <span class="normal"><a href="#__codelineno-0-392">392</a></span>
@@ -5347,7 +5365,7 @@ async def reset(self, ctx: commands.Context, cmd_name: str):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-479">479</a></span>
 <span class="normal"><a href="#__codelineno-0-480">480</a></span>
 <span class="normal"><a href="#__codelineno-0-481">481</a></span>
@@ -5500,7 +5518,7 @@ async def config(ctx: Context):
 
 
                   <details class="mkdocstrings-source">
-                    <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+                    <summary>Source code in <code>vkflow\commands\core.py</code></summary>
                     <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-940">940</a></span>
 <span class="normal"><a href="#__codelineno-0-941">941</a></span>
 <span class="normal"><a href="#__codelineno-0-942">942</a></span>
@@ -5543,7 +5561,7 @@ async def config(ctx: Context):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-946">946</a></span>
 <span class="normal"><a href="#__codelineno-0-947">947</a></span>
 <span class="normal"><a href="#__codelineno-0-948">948</a></span>
@@ -5624,7 +5642,7 @@ async def config(ctx: Context):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-976">976</a></span>
 <span class="normal"><a href="#__codelineno-0-977">977</a></span>
 <span class="normal"><a href="#__codelineno-0-978">978</a></span>
@@ -5661,7 +5679,7 @@ async def config(ctx: Context):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/core.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\core.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-982"> 982</a></span>
 <span class="normal"><a href="#__codelineno-0-983"> 983</a></span>
 <span class="normal"><a href="#__codelineno-0-984"> 984</a></span>
@@ -5909,7 +5927,7 @@ app.add_cog(CounterCog())</p>
 
 
                   <details class="mkdocstrings-source">
-                    <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+                    <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
                     <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-180">180</a></span>
 <span class="normal"><a href="#__codelineno-0-181">181</a></span>
 <span class="normal"><a href="#__codelineno-0-182">182</a></span>
@@ -6016,7 +6034,7 @@ app.add_cog(CounterCog())</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-125">125</a></span>
 <span class="normal"><a href="#__codelineno-0-126">126</a></span>
 <span class="normal"><a href="#__codelineno-0-127">127</a></span>
@@ -6086,7 +6104,7 @@ async def handle_message(self, event):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-250">250</a></span>
 <span class="normal"><a href="#__codelineno-0-251">251</a></span>
 <span class="normal"><a href="#__codelineno-0-252">252</a></span>
@@ -6164,7 +6182,7 @@ async def handle_message(self, event):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-276">276</a></span>
 <span class="normal"><a href="#__codelineno-0-277">277</a></span>
 <span class="normal"><a href="#__codelineno-0-278">278</a></span>
@@ -6226,7 +6244,7 @@ async def handle_message(self, event):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-285">285</a></span>
 <span class="normal"><a href="#__codelineno-0-286">286</a></span>
 <span class="normal"><a href="#__codelineno-0-287">287</a></span>
@@ -6291,7 +6309,7 @@ async def handle_message(self, event):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-298">298</a></span>
 <span class="normal"><a href="#__codelineno-0-299">299</a></span>
 <span class="normal"><a href="#__codelineno-0-300">300</a></span>
@@ -6368,7 +6386,7 @@ async def handle_message(self, event):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-317">317</a></span>
 <span class="normal"><a href="#__codelineno-0-318">318</a></span>
 <span class="normal"><a href="#__codelineno-0-319">319</a></span>
@@ -6450,7 +6468,7 @@ async def handle_message(self, event):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-336">336</a></span>
 <span class="normal"><a href="#__codelineno-0-337">337</a></span>
 <span class="normal"><a href="#__codelineno-0-338">338</a></span>
@@ -6535,7 +6553,7 @@ async def handle_message(self, event):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-356">356</a></span>
 <span class="normal"><a href="#__codelineno-0-357">357</a></span>
 <span class="normal"><a href="#__codelineno-0-358">358</a></span>
@@ -6619,7 +6637,7 @@ error: Исключение, если команда упала, None при у�
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-376">376</a></span>
 <span class="normal"><a href="#__codelineno-0-377">377</a></span>
 <span class="normal"><a href="#__codelineno-0-378">378</a></span>
@@ -6703,7 +6721,7 @@ error: Возникшее исключение</p>
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-397">397</a></span>
 <span class="normal"><a href="#__codelineno-0-398">398</a></span>
 <span class="normal"><a href="#__codelineno-0-399">399</a></span>
@@ -6784,7 +6802,7 @@ error: Возникшее исключение</p>
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-416">416</a></span>
 <span class="normal"><a href="#__codelineno-0-417">417</a></span>
 <span class="normal"><a href="#__codelineno-0-418">418</a></span>
@@ -6872,7 +6890,7 @@ async def start_order(self, ctx):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-437">437</a></span>
 <span class="normal"><a href="#__codelineno-0-438">438</a></span>
 <span class="normal"><a href="#__codelineno-0-439">439</a></span>
@@ -6989,7 +7007,7 @@ async def start_order(self, ctx):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-474">474</a></span>
 <span class="normal"><a href="#__codelineno-0-475">475</a></span>
 <span class="normal"><a href="#__codelineno-0-476">476</a></span>
@@ -7121,7 +7139,7 @@ async def start_order(self, ctx):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/cog.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\cog.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-527">527</a></span>
 <span class="normal"><a href="#__codelineno-0-528">528</a></span>
 <span class="normal"><a href="#__codelineno-0-529">529</a></span>
@@ -7256,7 +7274,7 @@ async def on_pin_message(event: PinMessageEvent, conversation_message_id):
 
 
                   <details class="mkdocstrings-source">
-                    <summary>Source code in <code>vkflow/commands/listener.py</code></summary>
+                    <summary>Source code in <code>vkflow\commands\listener.py</code></summary>
                     <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-190">190</a></span>
 <span class="normal"><a href="#__codelineno-0-191">191</a></span>
 <span class="normal"><a href="#__codelineno-0-192">192</a></span>
@@ -7319,7 +7337,7 @@ async def on_pin_message(event: PinMessageEvent, conversation_message_id):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/listener.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\listener.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-206">206</a></span>
 <span class="normal"><a href="#__codelineno-0-207">207</a></span>
 <span class="normal"><a href="#__codelineno-0-208">208</a></span>
@@ -7350,7 +7368,7 @@ async def on_pin_message(event: PinMessageEvent, conversation_message_id):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/listener.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\listener.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-211">211</a></span>
 <span class="normal"><a href="#__codelineno-0-212">212</a></span>
 <span class="normal"><a href="#__codelineno-0-213">213</a></span>
@@ -7437,7 +7455,7 @@ async def on_pin_message(event: PinMessageEvent, conversation_message_id):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/listener.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\listener.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-256">256</a></span>
 <span class="normal"><a href="#__codelineno-0-257">257</a></span>
 <span class="normal"><a href="#__codelineno-0-258">258</a></span>
@@ -7587,7 +7605,7 @@ async def on_pin_message(event: PinMessageEvent, conversation_message_id):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/listener.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\listener.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-295">295</a></span>
 <span class="normal"><a href="#__codelineno-0-296">296</a></span>
 <span class="normal"><a href="#__codelineno-0-297">297</a></span>
@@ -7772,7 +7790,7 @@ async def on_pin_message(event: PinMessageEvent, conversation_message_id):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/listener.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\listener.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-350">350</a></span>
 <span class="normal"><a href="#__codelineno-0-351">351</a></span>
 <span class="normal"><a href="#__codelineno-0-352">352</a></span>
@@ -7822,7 +7840,17 @@ async def on_pin_message(event: PinMessageEvent, conversation_message_id):
 
 
 <a href="#vkflow.commands.tasks.Loop" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Loop</span><span class="p">(</span><span class="n">coro</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hours</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n"><span title="vkflow.utils.sentinel.MISSING">MISSING</span></span><span class="p">,</span> <span class="n">cron</span><span class="o">=</span><span class="n"><span title="vkflow.utils.sentinel.MISSING">MISSING</span></span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reconnect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Loop</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">coro</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="o">*</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">minutes</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">hours</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">time</span><span class="o">=</span><span class="n"><span title="vkflow.utils.sentinel.MISSING">MISSING</span></span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">cron</span><span class="o">=</span><span class="n"><span title="vkflow.utils.sentinel.MISSING">MISSING</span></span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">reconnect</span><span class="o">=</span><span class="kc">True</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
@@ -7839,7 +7867,7 @@ async def on_pin_message(event: PinMessageEvent, conversation_message_id):
 
 
                   <details class="mkdocstrings-source">
-                    <summary>Source code in <code>vkflow/commands/tasks.py</code></summary>
+                    <summary>Source code in <code>vkflow\commands\tasks.py</code></summary>
                     <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-122">122</a></span>
 <span class="normal"><a href="#__codelineno-0-123">123</a></span>
 <span class="normal"><a href="#__codelineno-0-124">124</a></span>
@@ -8097,7 +8125,7 @@ async def logging_middleware(ctx: Context, call_next):
 
 
                   <details class="mkdocstrings-source">
-                    <summary>Source code in <code>vkflow/commands/middleware.py</code></summary>
+                    <summary>Source code in <code>vkflow\commands\middleware.py</code></summary>
                     <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-74">74</a></span>
 <span class="normal"><a href="#__codelineno-0-75">75</a></span>
 <span class="normal"><a href="#__codelineno-0-76">76</a></span>
@@ -8140,7 +8168,7 @@ async def logging_middleware(ctx: Context, call_next):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/middleware.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\middleware.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-80">80</a></span>
 <span class="normal"><a href="#__codelineno-0-81">81</a></span>
 <span class="normal"><a href="#__codelineno-0-82">82</a></span>
@@ -8191,7 +8219,7 @@ async def logging_middleware(ctx: Context, call_next):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/middleware.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\middleware.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-95"> 95</a></span>
 <span class="normal"><a href="#__codelineno-0-96"> 96</a></span>
 <span class="normal"><a href="#__codelineno-0-97"> 97</a></span>
@@ -8242,7 +8270,7 @@ async def logging_middleware(ctx: Context, call_next):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/middleware.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\middleware.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-110">110</a></span>
 <span class="normal"><a href="#__codelineno-0-111">111</a></span>
 <span class="normal"><a href="#__codelineno-0-112">112</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-110" name="__codelineno-0-110"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_before_command_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hook</span><span class="p">:</span> <span class="n">Handler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -8271,7 +8299,7 @@ async def logging_middleware(ctx: Context, call_next):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/middleware.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\middleware.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-114">114</a></span>
 <span class="normal"><a href="#__codelineno-0-115">115</a></span>
 <span class="normal"><a href="#__codelineno-0-116">116</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-114" name="__codelineno-0-114"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_after_command_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hook</span><span class="p">:</span> <span class="n">Handler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -8300,7 +8328,7 @@ async def logging_middleware(ctx: Context, call_next):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/middleware.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\middleware.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-118">118</a></span>
 <span class="normal"><a href="#__codelineno-0-119">119</a></span>
 <span class="normal"><a href="#__codelineno-0-120">120</a></span>
@@ -8348,7 +8376,7 @@ async def logging_middleware(ctx: Context, call_next):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/middleware.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\middleware.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-127">127</a></span>
 <span class="normal"><a href="#__codelineno-0-128">128</a></span>
 <span class="normal"><a href="#__codelineno-0-129">129</a></span>
@@ -8410,7 +8438,9 @@ async def logging_middleware(ctx: Context, call_next):
   </span>
 
 <a href="#vkflow.commands.middleware.MiddlewareManager.run_after_command_hooks" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">run_after_command_hooks</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">run_after_command_hooks</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">ctx</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -8419,7 +8449,7 @@ async def logging_middleware(ctx: Context, call_next):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/middleware.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\middleware.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-150">150</a></span>
 <span class="normal"><a href="#__codelineno-0-151">151</a></span>
 <span class="normal"><a href="#__codelineno-0-152">152</a></span>
@@ -8618,7 +8648,7 @@ async def admin_command(ctx: commands.Context):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/checks.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\checks.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-71"> 71</a></span>
 <span class="normal"><a href="#__codelineno-0-72"> 72</a></span>
 <span class="normal"><a href="#__codelineno-0-73"> 73</a></span>
@@ -8713,7 +8743,7 @@ async def admin_command(ctx: commands.Context):
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/checks.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\checks.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-108">108</a></span>
 <span class="normal"><a href="#__codelineno-0-109">109</a></span>
 <span class="normal"><a href="#__codelineno-0-110">110</a></span>
@@ -8944,7 +8974,7 @@ async def secret(ctx: commands.Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/checks.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\checks.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-127">127</a></span>
 <span class="normal"><a href="#__codelineno-0-128">128</a></span>
 <span class="normal"><a href="#__codelineno-0-129">129</a></span>
@@ -9038,7 +9068,11 @@ async def secret(ctx: commands.Context):
 
 
 <a href="#vkflow.commands.checks.check_any" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">check_any</span><span class="p">(</span><span class="o">*</span><span class="n">checks</span><span class="p">,</span> <span class="n">error_message</span><span class="o">=</span><span class="s1">&#39;Ни одна из проверок не пройдена&#39;</span><span class="p">,</span> <span class="n">delete_after</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">check_any</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="o">*</span><span class="n">checks</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">error_message</span><span class="o">=</span><span class="s2">&quot;Ни одна из проверок не пройдена&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">delete_after</span><span class="o">=</span><span class="kc">None</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -9153,7 +9187,7 @@ async def manage(ctx: commands.Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/checks.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\checks.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-169">169</a></span>
 <span class="normal"><a href="#__codelineno-0-170">170</a></span>
 <span class="normal"><a href="#__codelineno-0-171">171</a></span>
@@ -9330,7 +9364,7 @@ async def admin_cmd(ctx: commands.Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/checks.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\checks.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-280">280</a></span>
 <span class="normal"><a href="#__codelineno-0-281">281</a></span>
 <span class="normal"><a href="#__codelineno-0-282">282</a></span>
@@ -9538,7 +9572,7 @@ async def owner_cmd(ctx: commands.Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/checks.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\checks.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-214">214</a></span>
 <span class="normal"><a href="#__codelineno-0-215">215</a></span>
 <span class="normal"><a href="#__codelineno-0-216">216</a></span>
@@ -9750,7 +9784,7 @@ async def private_cmd(ctx: commands.Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/checks.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\checks.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-337">337</a></span>
 <span class="normal"><a href="#__codelineno-0-338">338</a></span>
 <span class="normal"><a href="#__codelineno-0-339">339</a></span>
@@ -9890,7 +9924,7 @@ async def group_cmd(ctx: commands.Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/checks.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\checks.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-367">367</a></span>
 <span class="normal"><a href="#__codelineno-0-368">368</a></span>
 <span class="normal"><a href="#__codelineno-0-369">369</a></span>
@@ -10079,7 +10113,7 @@ async def limited(ctx: commands.Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/checks.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\checks.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-395">395</a></span>
 <span class="normal"><a href="#__codelineno-0-396">396</a></span>
 <span class="normal"><a href="#__codelineno-0-397">397</a></span>
@@ -10280,7 +10314,7 @@ async def unique(ctx: commands.Context):
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>vkflow/commands/checks.py</code></summary>
+              <summary>Source code in <code>vkflow\commands\checks.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-444">444</a></span>
 <span class="normal"><a href="#__codelineno-0-445">445</a></span>
 <span class="normal"><a href="#__codelineno-0-446">446</a></span>
